@@ -12,7 +12,7 @@ export default function SearchHandler({ ApiKey }) {
   // const ApiKey = process.env.API_KEY;
   // console.log(ApiKey)
   const SearchMovies = async () => {
-    await fetch(`http://www.omdbapi.com/?s=${searchTerm}&page=1&apikey=${ApiKey}`)
+    await fetch(`https://www.omdbapi.com/?s=${searchTerm}&page=1&apikey=${ApiKey}`)
       .then(async function (res) {
         const response = await res.json();
         setResults(response.Search);
