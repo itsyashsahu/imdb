@@ -4,11 +4,11 @@ import React from "react";
 export default function Card1({poster ,imdbId }) {
   return (
     <>
-      <div class="inline-block px-3">
+      <div className="inline-block px-3">
         <Link href={`/${imdbId}`} >
-        <div class="w-64 h-72 max-w-xs cursor-pointer overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
+        <div className="w-64 h-72 max-w-xs cursor-pointer overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
           <img
-            class="h-full w-full"
+            className="h-full w-full"
             src={poster}
             // src="https://m.media-amazon.com/images/M/MV5BYmRmYzA4NDItZmI3NS00NWIyLWIzZWEtNGIzZjZlYmY5MzE2XkEyXkFqcGdeQXVyMTEyNzgwMDUw._V1_SX300.jpg"
             />

@@ -20,6 +20,8 @@ export default function movie() {
     })
       .then(async function (res) {
         const response = await res.json();
+        console.log(response);
+        // implement the logic if response has length 0 
         setMovie(response[0]);
         setUpvotes( +response[0]?.Upvotes)
         setDownvotes( +response[0]?.Downvotes)
