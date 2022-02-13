@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Header from "../../comp/Header";
 import Card2 from "../../comp/Card2";
+import Head from "next/head";
 
 export default function SearchHandler({ ApiKey }) {
   const router = useRouter();
@@ -28,12 +29,15 @@ export default function SearchHandler({ ApiKey }) {
 
   return (
     <>
+      <Head>
+        <title>{`Search Results - ${searchTerm} `}</title>
+      </Head>
       <Header />
       <div className="flex justify-between mt-8">
         <h1 
         onClick={()=>{ console.log("healkjdsh");  router.push("/search/abc")}}
         className="flex lg:px-8 md:px-10 px-5 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800">
-          Search Results
+          Search Results - {searchTerm}
         </h1>
       </div>
 

@@ -4,12 +4,41 @@ import Card2 from "../comp/Card2";
 import Header from "../comp/Header";
 import Movie from "../utils/movieSchema";
 import db from "../utils/db";
-import { useRouter,withRouter } from 'next/router';
-
+import { useRouter, withRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Home({ tenmovies, allmovies }) {
+  const [allMovieArr, setAllMovieArr] = useState(allmovies);
+  const [selectedSort, setSelectedSort] = useState(0);
   // const router = useRouter();
   const router = useRouter();
+
+  const sortUpvotes = () => {
+    let Arr = allmovies.sort((a, b) => (a.Upvotes < b.Upvotes ? 1 : -1));
+    setAllMovieArr([...Arr]);
+    // console.log(allMovieArr)
+  };
+  const sortDownvotes = () => {
+    let Arr = allmovies.sort((a, b) => (a.Upvotes > b.Upvotes ? 1 : -1));
+    setAllMovieArr([...Arr]);
+    // console.log(allMovieArr)
+  };
+  const sortReleasedDate = () => {
+    let Arr = allmovies.sort((a, b) => (a.Released < b.Released ? 1 : -1));
+    setAllMovieArr([...Arr]);
+    // console.log(allMovieArr)
+  };
+
+  useEffect(()=>{
+    console.log("this is selectedSort",selectedSort)
+    switch(selectedSort){
+      case "1": sortUpvotes(); break;
+      case "2": sortDownvotes(); break;
+      case "3": sortReleasedDate(); break;
+    } 
+  },[selectedSort])
+
+
   return (
     <>
       <Head>
@@ -23,14 +52,15 @@ export default function Home({ tenmovies, allmovies }) {
         </h1>
         <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
           <div className="flex flex-nowrap lg:ml-10 md:ml-10 ml-14 ">
+            {console.log(selectedSort)}
             {tenmovies.map((movie) => {
               // console.log("ten",movie.imdbID)
               return (
-                  <Card1
-                    key={movie.imdbID}
-                    poster={movie.Poster}
-                    imdbId={movie.imdbID}
-                  />
+                <Card1
+                  key={movie.imdbID}
+                  poster={movie.Poster}
+                  imdbId={movie.imdbID}
+                />
               );
             })}
           </div>
@@ -38,18 +68,28 @@ export default function Home({ tenmovies, allmovies }) {
       </div>
 
       <div className="flex justify-between">
-        <h1 
-        onClick={()=>{ console.log("healkjdsh");  router.push("/search/abc")}}
-        className="flex lg:px-8 md:px-10 px-5 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800">
+        <h1
+          onClick={() => {
+            console.log("healkjdsh");
+            router.push("/search/abc");
+          }}
+          className="flex lg:px-8 md:px-10 px-5 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800"
+        >
           All Listed Movies
         </h1>
         <div className="flex ml-6 mr-12 items-center">
-          <span className="mr-3">Sort By</span>
+          <span className="mr-3" onClick={sortReleasedDate}>
+            Sort By
+          </span>
           <div className="relative">
-            <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-              <option>Upvotes</option>
-              <option>Downvotes</option>
-              <option>Released Date</option>
+            <select 
+              value={selectedSort}
+              onChange={(e)=>setSelectedSort(e.target.value)}
+              className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+              <option value="0" defaultValue>Select Method</option>
+              <option value="1">Upvotes</option>
+              <option value="2">Downvotes</option>
+              <option value="3">Released Date</option>
             </select>
             <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
               <svg
@@ -70,16 +110,17 @@ export default function Home({ tenmovies, allmovies }) {
 
       <div className="container my-5 mx-auto px-4 md:px-12">
         <div className="flex flex-wrap -mx-1 lg:-mx-4">
-          {allmovies.map((movie) => {
+          {/* {allmovies.map((movie) => { */}
+          {allMovieArr.map((movie) => {
             // console.log("all",movie.imdbID)
             return (
-                <Card2
-                  key={movie.imdbID}
-                  poster={movie.Poster}
-                  title={movie.Title}
-                  genre={movie.Genre}
-                  imdbId={movie.imdbID}
-                />
+              <Card2
+                key={movie.imdbID}
+                poster={movie.Poster}
+                title={movie.Title}
+                genre={movie.Genre}
+                imdbId={movie.imdbID}
+              />
             );
           })}
         </div>

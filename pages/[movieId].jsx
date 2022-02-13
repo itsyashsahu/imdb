@@ -1,6 +1,8 @@
 import React, { useEffect,useState } from "react";
 import { useRouter } from "next/router";
 import Header from "../comp/Header";
+import Head from "next/head";
+
 
 export default function movie({ApiKey}) {
   const router = useRouter();
@@ -134,6 +136,9 @@ export default function movie({ApiKey}) {
 
   return (
     <>
+      <Head>
+        <title>Movie : {movie?.Title}</title>
+      </Head>
       <Header />
       <section className="text-gray-600 body-font overflow-hidden h-4/6">
         <div className="container px-5 py-10 mx-auto">
