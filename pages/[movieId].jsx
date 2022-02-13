@@ -4,14 +4,14 @@ import Header from "../comp/Header";
 import Head from "next/head";
 
 
-export default function movie({ApiKey}) {
+export default function Movie({ApiKey}) {
   const router = useRouter();
   const [movie,setMovie ] = useState({});
   const [ Upvotes , setUpvotes ] = useState(0);
   const [ Downvotes , setDownvotes ] = useState(0);
   
   const [ fromSearch , setFromSeatch ] = useState(false);
-  const movieId = router.query.movieId;
+  const movieId = router.query.MovieId;
 
   const getMovieFromApi = async () => {
     await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
