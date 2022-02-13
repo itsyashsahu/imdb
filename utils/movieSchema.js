@@ -20,6 +20,9 @@ const movieSchema = new mongoose.Schema({
             }
         ]
     },
+    "imdbID":{
+        type:String,
+    },
     "Upvotes":{
         type:Number,
         default:0
