@@ -14,7 +14,7 @@ export default function Movie({ApiKey}) {
   const movieId = router.query.MovieId;
 
   const getMovieFromApi = async () => {
-    await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
+    await fetch(`https://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
       .then(async function (res) {
         const response = await res.json();
         // setResults(response.Search);
