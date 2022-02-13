@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 
-export default function Header({ }) {
+export default function Header({setSearchLoader }) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -14,6 +14,7 @@ export default function Header({ }) {
     // router.push("search/abc");
     if(router.query.searchTerm ){
       router.push(`${searchTerm}`)
+      setSearchLoader(true)
     }else{
       router.push(`search/${searchTerm}`)
 

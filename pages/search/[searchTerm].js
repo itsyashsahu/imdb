@@ -38,12 +38,12 @@ export default function SearchHandler({ ApiKey }) {
       <Head>
         <title>{`Search Results - ${searchTerm} `}</title>
       </Head>
-      <Header />
+      <Header setSearchLoader={setSearchLoader} />
       {
         (serchLoader)?
-        <div className="bg-gray-800 h-screen flex justify-center items-center" >
+        <div className="bg-gray-800 h-screen flex flex-col justify-center items-center" >
           <Image src={loadingsvg} />
-          Hello World
+          {/* <div className="text-xl text-white mt-4" >Hello World</div> */}
         </div>
         :
         <>
