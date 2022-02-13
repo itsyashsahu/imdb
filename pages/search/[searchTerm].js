@@ -58,9 +58,9 @@ export default function SearchHandler({ ApiKey }) {
 }
 
 export async function getServerSideProps(context) {
-  console.log("(Re-)Generating...the api key");
+  // console.log("(Re-)Generating...the api key");
   const key = process.env.API_KEY;
-  console.log("sd", key);
+  // console.log("sd", key);
 
   return {
     props: {

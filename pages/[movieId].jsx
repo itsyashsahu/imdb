@@ -2,13 +2,31 @@ import React, { useEffect,useState } from "react";
 import { useRouter } from "next/router";
 import Header from "../comp/Header";
 
-export default function movie() {
+export default function movie({ApiKey}) {
   const router = useRouter();
   const [movie,setMovie ] = useState({});
   const [ Upvotes , setUpvotes ] = useState(0);
   const [ Downvotes , setDownvotes ] = useState(0);
   
+  const [ fromSearch , setFromSeatch ] = useState(false);
   const movieId = router.query.movieId;
+
+  const getMovieFromApi = async () => {
+    await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
+      .then(async function (res) {
+        const response = await res.json();
+        // setResults(response.Search);
+        setMovie(response);
+        setFromSeatch(true);
+        // setUpvotes( +response?.Upvotes)
+        // setDownvotes( +response?.Downvotes)
+        console.log(response);
+      })
+      .catch(function (res) {
+        console.log(res);
+      });
+  }
+
   const getMovie = async () => {
     await fetch("/api/movie/", {
       headers: {
@@ -20,11 +38,15 @@ export default function movie() {
     })
       .then(async function (res) {
         const response = await res.json();
-        console.log(response);
+        console.log(response.length);
         // implement the logic if response has length 0 
-        setMovie(response[0]);
-        setUpvotes( +response[0]?.Upvotes)
-        setDownvotes( +response[0]?.Downvotes)
+        if( response.length > 0 ){
+          setMovie(response[0]);
+          setUpvotes( +response[0]?.Upvotes)
+          setDownvotes( +response[0]?.Downvotes)
+        }else{
+          getMovieFromApi();
+        }
       })
       .catch(function (res) {
         console.log(res);
@@ -51,24 +73,47 @@ export default function movie() {
   }
 
   const upvote = async () =>{
-
+    var movieData;
+    if( !fromSearch ){
+      movieData={
+        movieId
+      }
+    }else{
+      movieData={
+        ...movie
+      }
+      // console.log("search se ho",movieData)
+    }
     await fetch("/api/upvote/", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ movieId ,fromSearch:false }),
+      body: JSON.stringify({ movieData ,fromSearch }),
     })
       .then(async function (res) {
-        // const response = await res.json();
+        const response = await res.json();
+        // console.log(response)
         setUpvotes( ++Upvotes)
       })
       .catch(function (res) {
         console.log(res);
       });
   }
+  
   const downvote = async () =>{
+    var movieData;
+    if( !fromSearch ){
+      movieData={
+        movieId
+      }
+    }else{
+      movieData={
+        ...movie
+      }
+      // console.log("search se ho",movieData)
+    }
 
     await fetch("/api/downvote/", {
       headers: {
@@ -76,10 +121,10 @@ export default function movie() {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ movieId ,fromSearch:false }),
+      body: JSON.stringify({ movieData ,fromSearch }),
     })
       .then(async function (res) {
-        const response = await res.json();
+        // const response = await res.json();
         setDownvotes( ++Downvotes)
       })
       .catch(function (res) {
@@ -172,4 +217,17 @@ export default function movie() {
       </section>
     </>
   );
+}
+
+
+export async function getServerSideProps(context) {
+  // console.log("(Re-)Generating...the api key");
+  const key = process.env.API_KEY;
+  // console.log("sd", key);
+
+  return {
+    props: {
+      ApiKey: key,
+    },
+  };
 }

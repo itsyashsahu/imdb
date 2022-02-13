@@ -14,11 +14,8 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    "Genre":{
-        type:[{
-            type : String,
-            }
-        ]
+    "Genre":{        
+        type:String,
     },
     "imdbID":{
         type:String,
@@ -30,7 +27,25 @@ const movieSchema = new mongoose.Schema({
     "Downvotes":{
         type:Number,
         default:0
-    }
+    },
+    "Poster":{
+        type:String
+    },
+    "Director":{
+        type:String,
+    },
+    "Actors":{
+        type:String,
+    },
+    "Writer":{
+        type:String,
+    },
+    "Language":{
+        type:String,
+    },
+    "Plot":{
+        type:String,
+    },
 },
 { timestamps: true })
 
