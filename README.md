@@ -36,6 +36,7 @@ Live App Link --> https://imdb-itsyashsahu.vercel.app/
 
 <h3>Search Page</h3>
 <br/>
+
 ![Search page](screenshots/Screenshot_6.jpg "Search Movie page of the web-app")
 
 <h3>Sorting With Different Options</h3>
