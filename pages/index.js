@@ -30,7 +30,7 @@ export default function Home({ tenmovies, allmovies }) {
   };
 
   useEffect(()=>{
-    console.log("this is selectedSort",selectedSort)
+    // console.log("this is selectedSort",selectedSort)
     switch(selectedSort){
       case "1": sortUpvotes(); break;
       case "2": sortDownvotes(); break;
@@ -52,7 +52,7 @@ export default function Home({ tenmovies, allmovies }) {
         </h1>
         <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
           <div className="flex flex-nowrap lg:ml-10 md:ml-10 ml-14 ">
-            {console.log(selectedSort)}
+            {/* {console.log(selectedSort)} */}
             {tenmovies.map((movie) => {
               // console.log("ten",movie.imdbID)
               return (
@@ -71,7 +71,7 @@ export default function Home({ tenmovies, allmovies }) {
 
         <h1
           onClick={() => {
-            console.log("healkjdsh");
+            // console.log("healkjdsh");
             router.push("/search/abc");
           }}
           className="flex lg:px-8 md:px-10 md:px-5 px-2 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800"

@@ -1,34 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<h1>IMDB Movie Rating Website</h1>
 
-First, run the development server:
+These App is now deployed on Heroku so Go check it out
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Live App Link --> https://imdb-itsyashsahu.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<h1>Technical Details -- </h1>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+--> Pre-Rendering the pages to Improve the SEO of Website using Next.js
 
-## Learn More
+--> CURD operations using RESTfull Api created with help of Next.js
 
-To learn more about Next.js, take a look at the following resources:
+--> Beautiful and Fully Responsive User Interface Using Tailwind CSS.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+--> Getting movies data from api OMDb.com
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+--> Data Stored in MonogoDB Atlas.
 
-## Deploy on Vercel
+--> Sorting Movie present in Database.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<h1>ScreenShots</h1>
+
+<h3>Landing Page</h3>
+
+![First Glance](screenshots/Screenshot_1.png "First Glance of the web-app")
+
+<h3>Movie Page</h3>
+
+![Movie page](screenshots/Screenshot_2.png "Movie Details page of the web-app")
+![Movie page](screenshots/Screenshot_7.png "Movie Details page of the web-app")
+
+<h3>Search Page</h3>
+<br/>
+![Search page](screenshots/Screenshot_6.png "Search Movie page of the web-app")
+
+<h3>Sorting With Different Options</h3>
+<br/>
+
+<h4>Based on Upvotes</h4>
+
+![Sorting](screenshots/Screenshot_3.png "Sorting movies of the web-app")
+
+<h4>Based on Downvotes</h4>
+
+![Sorting](screenshots/Screenshot_4.png "Sorting movies of the web-app")
+
+<h4>Based on Downvotes</h4>
+
+![Sorting](screenshots/Screenshot_5.png "Sorting movies of the web-app")
+
+
+<h3>Error Handling</h3>
+
+![Error Handling](screenshots/Screenshot_8.png "Error Handling of the web-app")
+

@@ -23,12 +23,12 @@ export default function Header({setSearchLoader }) {
   };
   return (
     <>
-      <header className="w-full shadow-lg bg-white dark:bg-gray-700 items-center h-16 z-40">
+      <header className="w-full shadow-lg bg-gray-700 items-center h-16 z-40">
         <div className="relative z-20 flex flex-col justify-center h-full px-3 mx-auto flex-center">
           <div className="relative items-center pl-1 flex  w-full lg:max-w-68 sm:pr-2 sm:ml-0">
             <div className="relative active:translate-y-0.5 p-1 flex items-center justify-start w-full ml-5 mr-4 sm:mr-0 sm:right-auto">
 
-              <a href="/"  className="block relative text-xl text-white">
+              <a href="/"  className="block relative text-xl font-bold text-white">
                 IMDB Movie Rating Website
               </a>
             </div>

@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     var movies ;
     if( !req.body.fromSearch )
     {
-      console.log(req.body)
+      // console.log(req.body)
         if(!req.body.movieData.movieId){
             res.status(401).json({message:"bad request"})
             return false;
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         // saved!
       });
       
-      console.log("hii thsdfkjh")
+      // console.log("hii thsdfkjh")
       
       res.status(200).json({"message":true});
         

@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         // saved!
       });
 
-      console.log("hii thsdfkjh");
+      // console.log("hii thsdfkjh");
 
       res.status(200).json({ message: true });
     }

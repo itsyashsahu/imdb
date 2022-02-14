@@ -59,7 +59,7 @@ export default function Movie({ ApiKey }) {
       // console.log("he")
       savedArr = JSON.parse(savedArr)
       const found = savedArr.find(movie => movie.imdbId === imdbId);
-      console.log(found)
+      // console.log(found)
       if(found){
         return
       }else{
