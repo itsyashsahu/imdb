@@ -1,20 +1,33 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Header from "../comp/Header";
 import Head from "next/head";
-import loadingsvg from '../comp/loading.svg'
+import loadingsvg from "../comp/loading.svg";
 import Image from "next/image";
 // import { set } from "mongoose";
+import upvoteOutlinedSVG from '../comp/upvoteOutlined.svg';
+import upvoteFilledSVG from '../comp/upvoteFilled.svg';
+import downvoteOutlinedSVG from '../comp/downvoteOutlined.svg';
+import downvoteFilledSVG from '../comp/downvoteFilled.svg';
 
-export default function Movie({ApiKey}) {
+export default function Movie({ ApiKey }) {
   const router = useRouter();
-  const [movie,setMovie ] = useState({});
-  const [ Upvotes , setUpvotes ] = useState(0);
-  const [ Downvotes , setDownvotes ] = useState(0);
-  const [ serchLoader , setSearchLoader ] = useState(true)
-  
-  const [ fromSearch , setFromSeatch ] = useState(false);
+  const [movie, setMovie] = useState({});
+  const [Upvotes, setUpvotes] = useState(0);
+  const [Downvotes, setDownvotes] = useState(0);
+  const [serchLoader, setSearchLoader] = useState(true);
+
+  // const [ hasUserReacted , setHasUserReacted ] = useState("true");
+  const [userUpvoted, setUserUpvoted] = useState(false);
+  const [userDownvoted, setUserDownvoted] = useState(false);
+
+  const [fromSearch, setFromSeatch] = useState(false);
   const movieId = router.query.MovieId;
+
+  useEffect(()=>{
+    // localStorage.setItem()
+  },[])
+
 
   const getMovieFromApi = async () => {
     await fetch(`https://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
@@ -31,7 +44,7 @@ export default function Movie({ApiKey}) {
       .catch(function (res) {
         console.log(res);
       });
-  }
+  };
 
   const getMovie = async () => {
     await fetch("/api/movie/", {
@@ -45,13 +58,13 @@ export default function Movie({ApiKey}) {
       .then(async function (res) {
         const response = await res.json();
         console.log(response.length);
-        // implement the logic if response has length 0 
-        if( response.length > 0 ){
+        // implement the logic if response has length 0
+        if (response.length > 0) {
           setMovie(response[0]);
           setSearchLoader(false);
-          setUpvotes( +response[0]?.Upvotes)
-          setDownvotes( +response[0]?.Downvotes)
-        }else{
+          setUpvotes(+response[0]?.Upvotes);
+          setDownvotes(+response[0]?.Downvotes);
+        } else {
           getMovieFromApi();
         }
       })
@@ -66,29 +79,32 @@ export default function Movie({ApiKey}) {
   const isoToDate = (iso) => {
     let date = new Date(iso);
     let year = date.getFullYear();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let dt = date.getDate();
-    
+
     if (dt < 10) {
-      dt = '0' + dt;
+      dt = "0" + dt;
     }
     if (month < 10) {
-      month = '0' + month;
+      month = "0" + month;
     }
-    let result = dt+'-' + month + '-'+year;
+    let result = dt + "-" + month + "-" + year;
     return result;
-  }
+  };
 
-  const upvote = async () =>{
+  const upvote = async () => {
+    if(userDownvoted){
+      return;
+    }
     var movieData;
-    if( !fromSearch ){
-      movieData={
-        movieId
-      }
-    }else{
-      movieData={
-        ...movie
-      }
+    if (!fromSearch) {
+      movieData = {
+        movieId,
+      };
+    } else {
+      movieData = {
+        ...movie,
+      };
       // console.log("search se ho",movieData)
     }
     await fetch("/api/upvote/", {
@@ -97,28 +113,32 @@ export default function Movie({ApiKey}) {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ movieData ,fromSearch }),
+      body: JSON.stringify({ movieData, fromSearch }),
     })
       .then(async function (res) {
         const response = await res.json();
         // console.log(response)
-        setUpvotes( ++Upvotes)
+        setUserUpvoted(true);
+        setUpvotes(++Upvotes);
       })
       .catch(function (res) {
         console.log(res);
       });
-  }
-  
-  const downvote = async () =>{
+  };
+
+  const downvote = async () => {
+    if(userUpvoted){
+      return;
+    }
     var movieData;
-    if( !fromSearch ){
-      movieData={
-        movieId
-      }
-    }else{
-      movieData={
-        ...movie
-      }
+    if (!fromSearch) {
+      movieData = {
+        movieId,
+      };
+    } else {
+      movieData = {
+        ...movie,
+      };
       // console.log("search se ho",movieData)
     }
 
@@ -128,16 +148,17 @@ export default function Movie({ApiKey}) {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ movieData ,fromSearch }),
+      body: JSON.stringify({ movieData, fromSearch }),
     })
       .then(async function (res) {
         // const response = await res.json();
-        setDownvotes( ++Downvotes)
+        setDownvotes(++Downvotes);
+        setUserDownvoted(true)
       })
       .catch(function (res) {
         console.log(res);
       });
-  }
+  };
 
   return (
     <>
@@ -145,12 +166,11 @@ export default function Movie({ApiKey}) {
         <title>Movie : {movie?.Title}</title>
       </Head>
       <Header />
-      {
-        (serchLoader)?
-        <div className="bg-gray-800 h-screen flex justify-center items-center" >
+      {serchLoader ? (
+        <div className="bg-gray-800 h-screen flex justify-center items-center">
           <Image src={loadingsvg} />
         </div>
-        :
+      ) : (
         <section className="text-gray-600 body-font overflow-hidden h-4/6">
           <div className="container px-5 py-10 mx-auto">
             <div className="lg:w-4/5 mx-auto flex flex-wrap justify-center">
@@ -167,24 +187,36 @@ export default function Movie({ApiKey}) {
                 </h1>
                 <div className="flex mb-4 mr-4">
                   <span className="flex items-center mr-4">
-                    <span className="text-gray-600">Genre : {movie?.Genre}</span>
+                    <span className="text-gray-600">
+                      Genre : {movie?.Genre}
+                    </span>
                   </span>
                   <span className="flex ml-3 pl-3 py-0 border-l-2 border-gray-200 space-x-2s">
-                    <span className="text-gray-600 ml-3">Year : {movie?.Year}</span>
+                    <span className="text-gray-600 ml-3">
+                      Year : {movie?.Year}
+                    </span>
                   </span>
                 </div>
                 <p className="leading-relaxed pb-5">
-                  <span className="text-gray-600">Released On : {movie?isoToDate(movie.Released):null}</span>
+                  <span className="text-gray-600">
+                    Released On : {movie ? isoToDate(movie.Released) : null}
+                  </span>
                   <br />
-                  <span className="text-gray-600">Runtime : {movie?.Runtime}</span>
+                  <span className="text-gray-600">
+                    Runtime : {movie?.Runtime}
+                  </span>
                   <br />
                   <span className="text-gray-600">
                     Directors : {movie?.Director}
                   </span>
                   <br />
-                  <span className="text-gray-600">Actors : {movie?.Actors}</span>
+                  <span className="text-gray-600">
+                    Actors : {movie?.Actors}
+                  </span>
                   <br />
-                  <span className="text-gray-600">Writers : {movie?.Writer}</span>
+                  <span className="text-gray-600">
+                    Writers : {movie?.Writer}
+                  </span>
                   <br />
                   <span className="text-gray-600">
                     Languages : {movie?.Language}
@@ -197,45 +229,38 @@ export default function Movie({ApiKey}) {
                 <div className="flex justify-between pt-2 border-t-2 border-gray-100 ">
                   <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Upvotes : {Upvotes} &nbsp;
-                    <button
-                      onClick={upvote}
-                      >
-                      <svg
-                        width="24px"
-                        height="24px"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z" />
-                      </svg>
-                    </button>
+                    {userUpvoted ? (
+                      <button className="flex">
+                        <Image src={upvoteFilledSVG} />
+                      </button>
+                    ) : (
+                      <button className="flex" onClick={upvote}>
+                        <Image src={upvoteOutlinedSVG} />
+                      </button>
+                    )}
                   </span>
+
                   <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Downvotes : {Downvotes} &nbsp;
-                    <button
-                      onClick={downvote}
-                    >
-                      <svg
-                        width="24px"
-                        height="24px"
-                        viewBox="0 0 24 24"
-                        className=""
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M20.901 10.566A1.001 1.001 0 0 0 20 10h-4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v7H4a1.001 1.001 0 0 0-.781 1.625l8 10a1 1 0 0 0 1.562 0l8-10c.24-.301.286-.712.12-1.059zM12 19.399 6.081 12H10V4h4v8h3.919L12 19.399z" />
-                      </svg>
-                    </button>
+                    {userDownvoted ? (
+                      <button className="flex">
+                        <Image src={downvoteFilledSVG} />
+                      </button>
+                    ) : (
+                      <button className="flex" onClick={downvote}>
+                        <Image src={downvoteOutlinedSVG} />
+                      </button>
+                    )}
                   </span>
                 </div>
               </div>
             </div>
           </div>
         </section>
-      }
+      )}
     </>
   );
 }
-
 
 export async function getServerSideProps(context) {
   // console.log("(Re-)Generating...the api key");

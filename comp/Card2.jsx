@@ -7,7 +7,7 @@ export default function Card2({poster , title ,genre ,imdbId}) {
   // console.log(poster)
   return (
     <>
-      <div className="relative h-[36rem] my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4 md:h-[26rem] ">
+      <div className="relative h-[36rem] active:translate-y-1 my-2 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4 md:h-[26rem] ">
       <Link href={`/${imdbId}`}>
         {/* <div className="relative bg-cover overflow-hidden rounded-lg shadow-lg h-full w-full transform duration-500 hover:-translate-y-2 cursor-pointer group bg-[url('https://m.media-amazon.com/images/M/MV5BYmRmYzA4NDItZmI3NS00NWIyLWIzZWEtNGIzZjZlYmY5MzE2XkEyXkFqcGdeQXVyMTEyNzgwMDUw._V1_SX300.jpg')]"> */}
         <div className="relative bg-cover overflow-hidden rounded-lg shadow-lg h-full w-full transform duration-500 hover:-translate-y-2 cursor-pointer group " style={{backgroundImage:`url(${poster})`}}>
