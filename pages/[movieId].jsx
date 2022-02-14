@@ -24,7 +24,7 @@ export default function Movie({ ApiKey }) {
   const [ litteLoader , setLittleLoader ] = useState(false);
 
   const [fromSearch, setFromSeatch] = useState(false);
-  const movieId = router.query.MovieId;
+  const movieId = router.query.movieId;
 
   const checkLocalStorage = (imdbId) =>{
     const savedArr = localStorage.getItem("userReactedMovies");
