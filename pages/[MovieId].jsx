@@ -9,6 +9,7 @@ import upvoteOutlinedSVG from '../comp/upvoteOutlined.svg';
 import upvoteFilledSVG from '../comp/upvoteFilled.svg';
 import downvoteOutlinedSVG from '../comp/downvoteOutlined.svg';
 import downvoteFilledSVG from '../comp/downvoteFilled.svg';
+import littleLoaderSVG from '../comp/littleLoader.svg'
 
 export default function Movie({ ApiKey }) {
   const router = useRouter();
@@ -20,14 +21,61 @@ export default function Movie({ ApiKey }) {
   // const [ hasUserReacted , setHasUserReacted ] = useState("true");
   const [userUpvoted, setUserUpvoted] = useState(false);
   const [userDownvoted, setUserDownvoted] = useState(false);
+  const [ litteLoader , setLittleLoader ] = useState(false);
 
   const [fromSearch, setFromSeatch] = useState(false);
   const movieId = router.query.MovieId;
 
-  useEffect(()=>{
-    // localStorage.setItem()
-  },[])
+  const checkLocalStorage = (imdbId) =>{
+    const savedArr = localStorage.getItem("userReactedMovies");
+    savedArr = JSON.parse(savedArr)
+    if(savedArr){
+      const found = savedArr.find(movie => movie.imdbId === imdbId);
+      // console.log(found)
+      if(found){
+        if(found.vote===1){
+          setUserUpvoted(true)
+        }else{
+          setUserDownvoted(true)
+        }
+      }
 
+    }
+  }
+
+  const setLocalStorage = (imdbId,vote)=>{
+    // getting the Arr if saved 
+    const savedArr = localStorage.getItem("userReactedMovies");
+    // console.log("set called ",savedArr)
+    if(!savedArr){
+      const saveArr = [
+        {
+          imdbId,
+          vote
+        }
+      ]
+      localStorage.setItem('userReactedMovies', JSON.stringify(saveArr));
+    }else{
+      // console.log("he")
+      savedArr = JSON.parse(savedArr)
+      const found = savedArr.find(movie => movie.imdbId === imdbId);
+      console.log(found)
+      if(found){
+        return
+      }else{
+
+        const saveArr = [
+          ...savedArr,
+          {
+            imdbId,
+            vote
+          }
+        ]
+        // console.log("to be saved",saveArr)
+        localStorage.setItem('userReactedMovies', JSON.stringify(saveArr));
+      }
+    }
+  }
 
   const getMovieFromApi = async () => {
     await fetch(`https://www.omdbapi.com/?i=${movieId}&apikey=${ApiKey}`)
@@ -37,12 +85,10 @@ export default function Movie({ ApiKey }) {
         setSearchLoader(false);
         setMovie(response);
         setFromSeatch(true);
-        // setUpvotes( +response?.Upvotes)
-        // setDownvotes( +response?.Downvotes)
-        console.log(response);
+        // console.log(response);
       })
-      .catch(function (res) {
-        console.log(res);
+      .catch(function (err) {
+        console.log(err);
       });
   };
 
@@ -57,25 +103,30 @@ export default function Movie({ ApiKey }) {
     })
       .then(async function (res) {
         const response = await res.json();
-        console.log(response.length);
+        // console.log(response.length);
         // implement the logic if response has length 0
         if (response.length > 0) {
           setMovie(response[0]);
           setSearchLoader(false);
           setUpvotes(+response[0]?.Upvotes);
           setDownvotes(+response[0]?.Downvotes);
+          // checkLocalStorage(movieId);
+          // setLocalStorage(movieId,1);
+
         } else {
           getMovieFromApi();
         }
       })
-      .catch(function (res) {
-        console.log(res);
+      .catch(function (err) {
+        console.log(err);
       });
   };
 
   useEffect(() => {
     getMovie();
+    checkLocalStorage(movieId);
   }, [movieId]);
+
   const isoToDate = (iso) => {
     let date = new Date(iso);
     let year = date.getFullYear();
@@ -107,6 +158,7 @@ export default function Movie({ ApiKey }) {
       };
       // console.log("search se ho",movieData)
     }
+    setLittleLoader(true);
     await fetch("/api/upvote/", {
       headers: {
         Accept: "application/json",
@@ -119,10 +171,13 @@ export default function Movie({ ApiKey }) {
         const response = await res.json();
         // console.log(response)
         setUserUpvoted(true);
+        setLittleLoader(false);
         setUpvotes(++Upvotes);
+        setLocalStorage(movieId,1);
+
       })
-      .catch(function (res) {
-        console.log(res);
+      .catch(function (err) {
+        console.log(err);
       });
   };
 
@@ -142,6 +197,7 @@ export default function Movie({ ApiKey }) {
       // console.log("search se ho",movieData)
     }
 
+    setLittleLoader(true);
     await fetch("/api/downvote/", {
       headers: {
         Accept: "application/json",
@@ -153,10 +209,12 @@ export default function Movie({ ApiKey }) {
       .then(async function (res) {
         // const response = await res.json();
         setDownvotes(++Downvotes);
+        setLittleLoader(false);
         setUserDownvoted(true)
+        setLocalStorage(movieId,-1);
       })
-      .catch(function (res) {
-        console.log(res);
+      .catch(function (err) {
+        console.log(err);
       });
   };
 
@@ -229,20 +287,34 @@ export default function Movie({ ApiKey }) {
                 <div className="flex justify-between pt-2 border-t-2 border-gray-100 ">
                   <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Upvotes : {Upvotes} &nbsp;
-                    {userUpvoted ? (
-                      <button className="flex">
+                    {
+                      (litteLoader)?
+                      <button className="flex h-7 w-8 ">
+                        <Image src={littleLoaderSVG} />
+                      </button>
+                      :
+                    (userUpvoted) ? (
+                      <button className="flex" >
                         <Image src={upvoteFilledSVG} />
                       </button>
                     ) : (
                       <button className="flex" onClick={upvote}>
                         <Image src={upvoteOutlinedSVG} />
                       </button>
-                    )}
+                    )
+                    }
                   </span>
 
                   <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Downvotes : {Downvotes} &nbsp;
-                    {userDownvoted ? (
+
+                    {
+                      (litteLoader)?
+                      <button className="flex h-7 w-8 ">
+                        <Image src={littleLoaderSVG} />
+                      </button>
+                      :
+                    (userDownvoted) ? (
                       <button className="flex">
                         <Image src={downvoteFilledSVG} />
                       </button>
@@ -250,7 +322,8 @@ export default function Movie({ ApiKey }) {
                       <button className="flex" onClick={downvote}>
                         <Image src={downvoteOutlinedSVG} />
                       </button>
-                    )}
+                    )
+                    }
                   </span>
                 </div>
               </div>
