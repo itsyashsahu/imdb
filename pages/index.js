@@ -67,17 +67,17 @@ export default function Home({ tenmovies, allmovies }) {
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between">
         <h1
           onClick={() => {
             console.log("healkjdsh");
             router.push("/search/abc");
           }}
-          className="flex lg:px-8 md:px-10 px-5 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800"
+          className="flex lg:px-8 md:px-10 md:px-5 px-2 lg:mx-16 md:mx-10 mx-4 font-bold text-3xl text-gray-800"
         >
           All Listed Movies
         </h1>
-        <div className="flex ml-6 mr-12 items-center">
+        <div className="flex mt-4 ml-auto sm:mt-0 mr-6 md:mr-12 items-center">
           <span className="mr-3" onClick={sortReleasedDate}>
             Sort By
           </span>
@@ -108,8 +108,8 @@ export default function Home({ tenmovies, allmovies }) {
         </div>
       </div>
 
-      <div className="container my-5 mx-auto px-4 md:px-12">
-        <div className="flex flex-wrap -mx-1 lg:-mx-4">
+      <div className="container my-5 mx-auto px-4 md:px-6">
+        <div className="flex flex-wrap -mx-1 lg:-mx-2">
           {/* {allmovies.map((movie) => { */}
           {allMovieArr.map((movie) => {
             // console.log("all",movie.imdbID)

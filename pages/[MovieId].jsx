@@ -195,7 +195,7 @@ export default function Movie({ApiKey}) {
                   {movie?.Plot}
                 </p>
                 <div className="flex justify-between pt-2 border-t-2 border-gray-100 ">
-                  <span className="flex items-center title-font font-medium text-2xl text-gray-900">
+                  <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Upvotes : {Upvotes} &nbsp;
                     <button
                       onClick={upvote}
@@ -210,7 +210,7 @@ export default function Movie({ApiKey}) {
                       </svg>
                     </button>
                   </span>
-                  <span className="flex items-center title-font font-medium text-2xl text-gray-900">
+                  <span className="flex items-center title-font font-medium md:text-2xl text-xl text-gray-900">
                     Downvotes : {Downvotes} &nbsp;
                     <button
                       onClick={downvote}
