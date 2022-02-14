@@ -27,34 +27,34 @@ Live App Link --> https://imdb-itsyashsahu.vercel.app/
 
 <h3>Landing Page</h3>
 
-![First Glance](screenshots/Screenshot_1.png "First Glance of the web-app")
+![First Glance](screenshots/Screenshot_1.jpg "First Glance of the web-app")
 
 <h3>Movie Page</h3>
 
-![Movie page](screenshots/Screenshot_2.png "Movie Details page of the web-app")
-![Movie page](screenshots/Screenshot_7.png "Movie Details page of the web-app")
+![Movie page](screenshots/Screenshot_2.jpg "Movie Details page of the web-app")
+![Movie page](screenshots/Screenshot_7.jpg "Movie Details page of the web-app")
 
 <h3>Search Page</h3>
 <br/>
-![Search page](screenshots/Screenshot_6.png "Search Movie page of the web-app")
+![Search page](screenshots/Screenshot_6.jpg "Search Movie page of the web-app")
 
 <h3>Sorting With Different Options</h3>
 <br/>
 
 <h4>Based on Upvotes</h4>
 
-![Sorting](screenshots/Screenshot_3.png "Sorting movies of the web-app")
+![Sorting](screenshots/Screenshot_3.jpg "Sorting movies of the web-app")
 
 <h4>Based on Downvotes</h4>
 
-![Sorting](screenshots/Screenshot_4.png "Sorting movies of the web-app")
+![Sorting](screenshots/Screenshot_4.jpg "Sorting movies of the web-app")
 
 <h4>Based on Downvotes</h4>
 
-![Sorting](screenshots/Screenshot_5.png "Sorting movies of the web-app")
+![Sorting](screenshots/Screenshot_5.jpg "Sorting movies of the web-app")
 
 
 <h3>Error Handling</h3>
 
-![Error Handling](screenshots/Screenshot_8.png "Error Handling of the web-app")
+![Error Handling](screenshots/Screenshot_8.jpg "Error Handling of the web-app")
 
